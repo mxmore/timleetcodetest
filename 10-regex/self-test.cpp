@@ -10,19 +10,20 @@ public:
     bool isMatch(string s, string p)
     {
         int m = s.size();
-        int n = p.size();
+        int n = p.size(); // p[n - 1] is the last character of p
+
+        if (m < n)
+        {
+            return false;
+        }
 
         auto matches = [&](int i, int j)
         {
-            // Check i
             if (i == 0)
             {
-                cout << "j is " << j << " i is " << i << " the 2 letters do not match" << endl;
-
                 return false;
             }
 
-            // Check p[j - 1] is a matches sign '.'
             if (p[j - 1] == '.')
             {
                 return true;
@@ -33,31 +34,27 @@ public:
 
         vector<vector<int>> f(m + 1, vector<int>(n + 1));
         f[0][0] = true;
-        for (int i = 0; i <= m; ++i)
+
+        for (int i = 0; i < m; i++)
         {
-            // cout << "i is " << i << endl;
-            for (int j = 1; j <= n; ++j)
+
+            // 从 j = 1 开始，因为 f[0][0] = true;
+            for (int j = 1; j < n; j++)
             {
-                // cout << "p[" << j - 1 << "] is " << p[j - 1] << endl;
+
+                cout << "f[" << i << "][" << j << "] =" << f[i][j] << endl;
+
                 if (p[j - 1] == '*')
                 {
-                    f[i][j] |= f[i][j - 2];
-                    if (matches(i, j - 1))
+                    f[i][j] |= f[i][j - 1];
+                    if (matches(i, j))
                     {
                         f[i][j] |= f[i - 1][j];
                     }
                 }
-                else
-                {
-                    if (matches(i, j))
-                    {
-                        f[i][j] |= f[i - 1][j - 1];
-                    }
-                }
             }
         }
-
-        return f[m][n];
+        return true;
     }
 };
 
@@ -67,10 +64,10 @@ int main()
     Solution *sol = new Solution();
 
     string str1 = "Hello";
-    string pattern = "*el*o";
+    string parten = "H*o";
 
     clock_t start = clock();
-    bool res = sol->isMatch(str1, pattern);
+    bool res = sol->isMatch(str1, parten);
     clock_t end = clock();
 
     double timespan = (double)(end - start) / CLOCKS_PER_SEC;
