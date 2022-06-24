@@ -17,8 +17,6 @@ public:
             // Check i
             if (i == 0)
             {
-                cout << "j is " << j << " i is " << i << " the 2 letters do not match" << endl;
-
                 return false;
             }
 
@@ -33,9 +31,9 @@ public:
 
         vector<vector<int>> f(m + 1, vector<int>(n + 1));
         f[0][0] = true;
+        // Hello  H*llo
         for (int i = 0; i <= m; ++i)
         {
-            // cout << "i is " << i << endl;
             for (int j = 1; j <= n; ++j)
             {
                 // cout << "p[" << j - 1 << "] is " << p[j - 1] << endl;
@@ -44,6 +42,7 @@ public:
                     f[i][j] |= f[i][j - 2];
                     if (matches(i, j - 1))
                     {
+                        // cout << "matches" << i << "," << j - 1 << endl;
                         f[i][j] |= f[i - 1][j];
                     }
                 }
@@ -66,8 +65,8 @@ int main()
     cout << "Start dynamic programming for regular expression. " << endl;
     Solution *sol = new Solution();
 
-    string str1 = "Hello";
-    string pattern = "*el*o";
+    string str1 = "HhhhhhhhhhhHello";
+    string pattern = ".*";
 
     clock_t start = clock();
     bool res = sol->isMatch(str1, pattern);

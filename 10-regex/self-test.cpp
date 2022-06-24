@@ -41,15 +41,19 @@ public:
             // 从 j = 1 开始，因为 f[0][0] = true;
             for (int j = 1; j < n; j++)
             {
-
-                cout << "f[" << i << "][" << j << "] =" << f[i][j] << endl;
-
                 if (p[j - 1] == '*')
                 {
-                    f[i][j] |= f[i][j - 1];
-                    if (matches(i, j))
+                    f[i][j] |= f[i][j - 2];
+                    if (matches(i, j - 1))
                     {
                         f[i][j] |= f[i - 1][j];
+                    }
+                }
+                else
+                {
+                    if (matches(i, j))
+                    {
+                        f[i][j] |= f[i - 1][j - 1];
                     }
                 }
             }
